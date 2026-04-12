@@ -3,7 +3,7 @@ from app.schema.schema import Task,User
 from app.db.db import db,collection,users
 
 
-task=APIRouter()
+task=APIRouter(tags=['Tasks'])
 
 
 @task.get("/alltasks")

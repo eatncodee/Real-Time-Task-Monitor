@@ -7,3 +7,8 @@ class Task(BaseModel):
 class User(BaseModel):
     email:EmailStr
     password:str
+
+
+class Logincreds(BaseModel):
+    email:EmailStr
+    password:str
