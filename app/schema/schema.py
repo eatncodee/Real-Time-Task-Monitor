@@ -1,8 +1,19 @@
 from pydantic import BaseModel,EmailStr
 from typing import Optional
+from enum import Enum
+
+
+class Priority(str,Enum):
+    low="low"
+    medium = "medium"
+    high = "high"
+
 class Task(BaseModel):
     task:str
-    completed:bool =False
+    description: str | None = None
+    completed: bool = False
+    priority: Priority = Priority.medium
+
 
 class User(BaseModel):
     email:EmailStr

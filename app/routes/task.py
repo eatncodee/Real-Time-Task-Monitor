@@ -2,6 +2,7 @@ from fastapi import FastAPI,APIRouter,Request,HTTPException,status, Depends
 from app.schema.schema import Task,User
 from app.Oauth2 import get_current_user
 from app.db.db import db,tasks,users
+from datetime import datetime
 
 
 task=APIRouter(tags=['Tasks'])
@@ -16,5 +17,6 @@ def get_tasks(current_user: str = Depends(get_current_user)):
 def add_tasks(task:Task, current_user: str = Depends(get_current_user)):
     task_dict=task.model_dump()
     task_dict["email"]=current_user["email"]
+    task_dict["Created_at"] = datetime.now()
     tasks.insert_one(task_dict)
     return {"messge":"done"}
