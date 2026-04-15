@@ -14,6 +14,10 @@ class Task(BaseModel):
     completed: bool = False
     priority: Priority = Priority.medium
 
+class TaskUpdate(BaseModel):
+    description: Optional[str] = None
+    completed: Optional[bool] = None
+    priority: Optional[Priority] = None
 
 class User(BaseModel):
     email:EmailStr
