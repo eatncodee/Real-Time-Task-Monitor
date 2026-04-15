@@ -3,7 +3,7 @@ import typing
 from bson import ObjectId
 from app.utils.hash import hash,verify
 from app.schema.schema import Task,User
-from app.db.db import db,collection,users
+from app.db.db import db,tasks,users
 
 user=APIRouter(tags=['User'])
 
@@ -32,7 +32,7 @@ def info(id:str):
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="Invalid User ID format"
         )
-    result = db.users.find_one({"_id": obj_id})
+    result = users.find_one({"_id": obj_id})
     
     if result:
         result["_id"] = str(result["_id"]) 

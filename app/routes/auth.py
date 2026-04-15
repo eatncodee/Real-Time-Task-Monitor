@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends, status, HTTPException,Response
-from app.db.db import db,collection,users
+from app.db.db import db,tasks,users
 from app.utils.hash import verify
 from pydantic import EmailStr
 from app.schema.schema import Logincreds
@@ -13,10 +13,10 @@ def login(creds:Logincreds):
     user=users.find_one({"email":creds.email})
 
     if not user:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Invalid Credentials")
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Invalid Credentials")
 
     if not verify(creds.password,user["password"]):
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,detail="Invalid Credentials")    
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN,detail="Invalid Credentials")    
 
     token=Oauth2.create_access_token(data={"email" : user["email"]})
 
