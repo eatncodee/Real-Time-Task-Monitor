@@ -61,3 +61,6 @@ Thumbs.db
 
 # claude config
 .claude/
+
+# extra file
+practise.py 
