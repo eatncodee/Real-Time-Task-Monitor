@@ -9,7 +9,7 @@ app=FastAPI()
 app.include_router(task)
 app.include_router(user)
 app.include_router(auth)
-
+app.include_router(ws)
 
 @app.get("/home")
 def get_home(request: Request):
