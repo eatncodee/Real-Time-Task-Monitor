@@ -1,4 +1,4 @@
-from pydantic import BaseModel,EmailStr
+from pydantic import BaseModel,EmailStr,ConfigDict
 from typing import Optional
 from enum import Enum
 
@@ -18,6 +18,8 @@ class TaskUpdate(BaseModel):
     description: Optional[str] = None
     completed: Optional[bool] = None
     priority: Optional[Priority] = None
+
+    model_config = ConfigDict(extra='forbid')
 
 class User(BaseModel):
     email:EmailStr
