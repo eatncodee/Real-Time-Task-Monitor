@@ -11,7 +11,7 @@ oauth_scheme=OAuth2PasswordBearer(tokenUrl="login")
 
 SECRET_KEY="09d25e094faa6ca2556c818166b7a9563b93f7099f6f0f4caa6cf63b88e8d3e7"
 ALGORITHM = "HS256"
-ACCESS_TOKEN_EXPIRE_MINUTES = 30
+ACCESS_TOKEN_EXPIRE_MINUTES = 90
 
 
 
@@ -27,7 +27,7 @@ def create_access_token(data: dict):
     return token
 
 
-def verify_access_token(token:str , Credentials_exception):
+async def verify_access_token(token:str , Credentials_exception):
 
     try:
         payload=jwt.decode(token,SECRET_KEY,algorithms=[ALGORITHM])
@@ -40,15 +40,16 @@ def verify_access_token(token:str , Credentials_exception):
     except JWTError:
         raise Credentials_exception 
 
-def get_current_user(token: str = Depends(oauth_scheme)):
+async def get_current_user(token: str = Depends(oauth_scheme)):
     Credentials_exception=HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
         detail="Could not verify credentials",
         headers={"WWW-AUTHENTICATE":"BEARER"}
         )
 
-    email= verify_access_token(token, Credentials_exception).email
-    result = users.find_one({"email":email})
+    token_data= await verify_access_token(token, Credentials_exception)
+    email=token_data.email
+    result = await users.find_one({"email":email})
     if result:
         return result
     else :

@@ -22,9 +22,13 @@ class TaskUpdate(BaseModel):
     model_config = ConfigDict(extra='forbid')
 
 class User(BaseModel):
-    email:EmailStr
+    email : EmailStr
     password:str
 
+class UserOut(BaseModel):
+    user_id: str
+    email : EmailStr
+    tasks_list : list
 
 class Logincreds(BaseModel):
     email:EmailStr

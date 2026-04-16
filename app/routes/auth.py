@@ -9,8 +9,8 @@ auth=APIRouter(tags=['Authentication'])
 
 
 @auth.post("/login")
-def login(creds:Logincreds):
-    user=users.find_one({"email":creds.email})
+async def login(creds:Logincreds):
+    user=await users.find_one({"email":creds.email})
 
     if not user:
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Invalid Credentials")
