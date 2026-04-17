@@ -26,8 +26,8 @@ async def add_tasks(task:Task, current_user: str = Depends(get_current_user)):
     result =await  tasks.insert_one(task_dict)
     task_dict["Created_at"]=str(task_dict["Created_at"])
     task_dict["_id"]=str(result.inserted_id)
-    await manager.broadcast(email=current_user["email"], message=json.dumps(task_dict))
-    return {"messge":"done","id":str(result.inserted_id)}
+    await manager.broadcast(email=current_user["email"], message = json.dumps({"action" : "new_task", "task" : task_dict}))
+    return {"Message":"done","id":str(result.inserted_id)}
 
 @task.put("/tasks/{id}")
 async def update_task(task:TaskUpdate,id:str, current_user : str = Depends(get_current_user)):
@@ -41,7 +41,7 @@ async def update_task(task:TaskUpdate,id:str, current_user : str = Depends(get_c
     if result:
         result["_id"]=str(result["_id"])
         result["Created_at"]=str(result["Created_at"])
-        await manager.broadcast(email=result["email"], message=json.dumps(result))
+        await manager.broadcast(email=result["email"], message=json.dumps({"action" : "Updated_task", "task" : result}))
         return result
 
     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Task not found, try again")
@@ -56,7 +56,7 @@ async def delete_task(id : str, current_user : str = Depends(get_current_user)):
     if result:
         result["_id"]=str(result["_id"])
         result["Created_at"]=str(result["Created_at"])
-        await manager.broadcast(email=result["email"], message=json.dumps(result))
+        await manager.broadcast(email=result["email"], message=json.dumps({"action" : "Deleted_task", "task" : result}))
         return {"Message":"Deleted", "Task: ": result}
     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Task not found, try again")
 

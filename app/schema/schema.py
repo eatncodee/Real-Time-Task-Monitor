@@ -15,6 +15,7 @@ class Task(BaseModel):
     priority: Priority = Priority.medium
 
 class TaskUpdate(BaseModel):
+    task: Optional[str] = None
     description: Optional[str] = None
     completed: Optional[bool] = None
     priority: Optional[Priority] = None
