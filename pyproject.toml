@@ -40,4 +40,5 @@ dependencies = [
     "timedelta>=2020.12.3",
     "websockets>=16.0",
     "aiofiles>=25.1.0",
+    "redis>=7.4.0",
 ]

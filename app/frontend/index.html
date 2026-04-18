@@ -452,7 +452,10 @@
         });
 
         const data = await res.json();
-        if (!res.ok) return showError(data.detail || 'Login failed');
+        if (!res.ok) {
+            const errorMsg = Array.isArray(data.detail) ? data.detail[0].msg.replace('Value error, ', '') : data.detail;
+            return showError(errorMsg || 'Login failed');
+        }
 
         token = data.token;
         localStorage.setItem('token', token);
@@ -471,7 +474,10 @@
         });
 
         const data = await res.json();
-        if (!res.ok) return showError(data.detail || 'Registration failed');
+        if (!res.ok) {
+            const errorMsg = Array.isArray(data.detail) ? data.detail[0].msg.replace('Value error, ', '') : data.detail;
+            return showError(errorMsg || 'Registration failed');
+        }
 
         showToast('Account created — please login', 'green');
         switchTab('login');

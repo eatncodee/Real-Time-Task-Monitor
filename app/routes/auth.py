@@ -4,11 +4,12 @@ from app.utils.hash import verify
 from pydantic import EmailStr
 from app.schema.schema import Logincreds
 from app import Oauth2
+from app.redis_dependency import login_rate_limiter
 
 auth=APIRouter(tags=['Authentication'])
 
 
-@auth.post("/login")
+@auth.post("/login", dependencies=[Depends(login_rate_limiter)])
 async def login(creds:Logincreds):
     user=await users.find_one({"email":creds.email})
 
@@ -20,6 +21,6 @@ async def login(creds:Logincreds):
 
     token=Oauth2.create_access_token(data={"email" : user["email"]})
 
-    return {"token": token, "token_type":"bearer"}
+    return {"access_token": token, "token_type":"bearer"}
 
 
