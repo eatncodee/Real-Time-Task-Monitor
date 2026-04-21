@@ -9,6 +9,7 @@ An asynchronous, high-performance backend service built with FastAPI that provid
 * **Asynchronous Database Operations:** Fully non-blocking CRUD operations utilizing MongoDB with the `Motor` async driver.
 * **Data Privacy & Ownership:** Strict endpoint-level validation ensures authenticated users can only view, modify, and manage their own specific tasks.
 * **RESTful Architecture:** Clean, well-documented REST APIs for standard data fetching alongside the real-time WebSocket pipeline.
+* **Login Rate Limiting:** Protects the `/login` endpoint against brute-force attacks using a Redis-backed IP rate limiter — max 5 attempts per IP per 60-second window, returning a `429` with the remaining cooldown seconds on violation.
 
 ## 🛠️ Tech Stack
 
@@ -16,6 +17,7 @@ An asynchronous, high-performance backend service built with FastAPI that provid
 * **Framework:** FastAPI
 * **Real-Time:** WebSockets, Asyncio
 * **Database:** MongoDB (Motor Async Driver)
+* **Cache / Rate Limiting:** Redis (`redis-py` async client)
 * **Security:** OAuth2, JWT (PyJWT), bcrypt (passlib)
 * **Data Validation:** Pydantic
 
