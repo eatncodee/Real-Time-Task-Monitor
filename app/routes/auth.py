@@ -21,6 +21,6 @@ async def login(creds:Logincreds):
 
     token=Oauth2.create_access_token(data={"email" : user["email"]})
 
-    return {"access_token": token, "token_type":"bearer"}
+    return {"token": token, "token_type":"bearer"}
 
 
